@@ -1,23 +1,27 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
-function Search({ onSearch }) {
-  const [query, setQuery] = useState("");
+function BookList() {
+  const [books, setBooks] = useState([]);
 
-  const handleSearch = () => {
-    onSearch(query);
-  };
+  useEffect(() => {
+    fetch("https://api.example.com/books") // 실제 API URL로 변경
+      .then((response) => response.json())
+      .then((data) => setBooks(data));
+  }, []);
 
   return (
     <div>
-      <input
-        type="text"
-        value={query}
-        onChange={(e) => setQuery(e.target.value)}
-        placeholder="Search books"
-      />
-      <button onClick={handleSearch}>Search</button>
+      <h1>도서 목록</h1>
+      <ul>
+        {books.map((book) => (
+          <li key={book.id}>
+            <Link to={`/book/${book.id}`}>{book.title}</Link>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }
 
-export default Search;
+export default BookList;
