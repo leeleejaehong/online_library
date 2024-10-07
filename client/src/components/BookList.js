@@ -5,9 +5,9 @@ function BookList() {
   const [books, setBooks] = useState([]);
 
   useEffect(() => {
-    fetch("https://api.example.com/books") // 실제 API URL로 변경
-      .then((response) => response.json())
-      .then((data) => setBooks(data));
+    fetch("https://openlibrary.org/subjects/love.json")
+  .then((response) => response.json())
+  .then((data) => setBooks(data.works));
   }, []);
 
   return (
@@ -15,9 +15,9 @@ function BookList() {
       <h1>도서 목록</h1>
       <ul>
         {books.map((book) => (
-          <li key={book.id}>
-            <Link to={`/book/${book.id}`}>{book.title}</Link>
-          </li>
+          <li key={book.key}>
+          <Link to={`/book/${book.key.split('/').pop()}`}>{book.title}</Link>
+        </li>
         ))}
       </ul>
     </div>
